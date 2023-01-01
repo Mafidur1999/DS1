@@ -1,0 +1,14 @@
+
+				 Distance between a(5,4) and b(7,8): 4.47
+
+				 sin(60.00) = 0.87
+
+				 sin(60.00) = 0.87
+
+				 cos(60.00) = 0.50
+
+				 BMI for 57.00 KG and 1.70 Meters is : 19.72
+
+				 sin(4.00) = 0.07
+
+				 Log 212.00 = 2.326336

@@ -1,0 +1,1703 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#define PI 3.1416
+
+struct login
+{
+    char username[20];
+    char password[20];
+};
+
+void registe()
+{
+    FILE *log;
+    log = fopen("login.txt","w");
+    struct login l;
+    printf("\n\t\t\t\t Enter user name: ");
+    scanf("%s",l.username);
+    printf("\n\t\t\t\t Enter password: ");
+    scanf("%s",l.password);
+    fwrite(&l,sizeof(l),1,log);
+
+    fclose(log);
+    printf("\n\t\t\t\t Now you can login with user name and password\n");
+    printf("\n\t\t\t\t Press any key to continue......");
+    getch();
+    system("CLS");
+    login();
+
+}
+
+void login()
+{
+    char username[200],password[20];
+    FILE *log;
+    log = fopen("login.txt","r");
+    struct login l;
+    printf("\n\t\t\t\t\t User name: ");
+    scanf("%s",&username);
+    printf("\n\t\t\t\t\t Password: ");
+    scanf("%s",&password);
+
+    while(fread(&l,sizeof(l),1,log))
+    {
+        if(strcmp(username,l.username) == 0 && strcmp(password,l.password) == 0)
+        {
+            options();
+        }
+        else
+        {
+            system("CLS");
+            printf("\n\t\t\t\t Please Enter Correct User name and Password\n");
+            reg();
+
+        }
+    }
+    fclose(log);
+}
+
+void reg()
+{
+    int cho;
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n\t\t\t\t\t   Calculator\n");
+    printf("\n");
+    printf("\t\t\t\t\t----------------\n");
+    printf("\t\t\t\t\t| 1. Register  |\n\t\t\t\t\t| 2. Login     |\n");
+    printf("\t\t\t\t\t----------------\n");
+    printf("\n");
+    printf("\t\t\t\t\tEnter your choice : ");
+    scanf("%d", &cho);
+    if(cho == 1)
+    {
+        system("CLS");
+        registe();
+    }
+    else if(cho == 2)
+    {
+        system("CLS");
+        login();
+    }
+}
+
+void AddTextOutput (char ans[1000])
+{
+    FILE *fp = fopen("Output.txt", "a");
+    if (fp == NULL)
+    {
+        printf("\n\t\t\t\t 404! FILE not found!!!\n");
+    }
+    else
+    {
+        fflush(stdin);
+        fprintf(fp,"%s",ans);
+        fclose(fp);
+    }
+}
+
+void reader ()
+{
+    system("cls");
+    FILE *fp = fopen("Output.txt", "r");
+
+    if (fp == NULL)
+    {
+        printf("\n\t\t\t\t Error while opening the file.\n");
+    }
+
+    printf("\n\t\t\t\t History: \n\n");
+    char ch;
+    while((ch = fgetc(fp)) != EOF)
+        printf("%c", ch);
+
+    fclose(fp);
+}
+
+void stringify (char msg[1000])
+{
+    printf("%s",msg);
+    AddTextOutput(msg);
+}
+
+void eqtn(double a,double b,char c,double result)
+{
+    char ans[1000];
+    sprintf(ans, "\n\t\t\t\t %.2lf %c %.2lf = %.2lf\n",a,c,b,result);
+    printf("%s",ans);
+    AddTextOutput(ans);
+}
+
+
+void add()
+{
+    system("cls");
+    printf("\n\t\t\t\t\t\tAddition\n");
+    int n, i;
+    printf("\n\t\t\t\t Enter the number of elements to add: ");
+    scanf("%d",&n);
+    double arr[n], sum = 0;
+    for(i = 0; i < n; i++)
+    {
+        scanf("%lf",&arr[i]);
+        sum = sum + arr[i];
+    }
+    char ans[1000] = {'\0'};
+    sprintf(ans, "\n\t\t\t\t The sum of %d elements is : %.2lf\n",n,sum);
+    printf("%s",ans);
+    printf("\n");
+    AddTextOutput(ans);
+}
+
+
+void sub ()
+{
+    double a, b;
+    printf("\n\t\t\t\t\t\tSubtraction\n");
+    printf("\n\t\t\t\t Enter first number: ");
+    scanf("%lf",&a);
+    printf("\n\t\t\t\t Enter second number: ");
+    scanf("%lf",&b);
+    eqtn(a,b,'-',a-b);
+}
+
+
+void mul()
+{
+    system("cls");
+    printf("\n\t\t\t\t\t\tMultiplication\n");
+    int n, i;
+    printf("\n\t\t\t\t Enter the number of elements to multiply: ");
+    scanf("%d",&n);
+    double arr[n], sum = 1;
+    for(i = 0; i < n; i++)
+    {
+        scanf("%lf",&arr[i]);
+        sum = sum * arr[i];
+    }
+    char ans[1000] = {'\0'};
+    sprintf(ans, "\n\t\t\t\t The product of %d elements is : %.2lf\n",n,sum);
+    printf("\n");
+    printf("%s",ans);
+    AddTextOutput(ans);
+}
+
+
+void division()
+{
+    system("cls");
+    double a, b;
+    printf("\n\t\t\t\t\t\tDivision\n");
+    printf("\n\t\t\t\t Enter first number: ");
+    scanf("%lf",&a);
+    printf("\n\t\t\t\t Enter second number: ");
+    scanf("%lf",&b);
+    eqtn(a,b,'/',a/b);
+}
+
+void per()
+{
+    system("cls");
+    double a, b;
+    printf("\n\t\t\t\t\t\tPercentage\n");
+    printf("\n\t\t\t\t Enter first number: ");
+    scanf("%lf",&a);
+    printf("\n\t\t\t\t Enter second number: ");
+    scanf("%lf",&b);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t %.2lf * %.2lf %% = %.2lf\n",a,b,a*b/100);
+    printf("\n");
+    printf("%s",ans);
+    AddTextOutput(ans);
+}
+
+void mod()
+{
+    int a, b, d = 0;
+    system("cls");
+    printf("\n\t\t\t\t\t\tModulus\n");
+    printf("\n\t\t\t\t Enter first number: ");
+    scanf("%d",&a);
+    printf("\n\t\t\t\t Enter second number: ");
+    scanf("%d",&b);
+    d = a % b;
+    char ans[1000] = {'\0'};
+    sprintf(ans, "\n\t\t\t\t Modulus of entered numbers = %d\n",d);
+    printf("\n");
+    stringify(ans);
+}
+
+void avg()
+{
+    system("cls");
+    printf("\n\t\t\t\t\t\t\tAverage\n");
+    int n,i;
+    printf("\n\t\t\t\t Enter the number of elements: ");
+    scanf("%d",&n);
+    double arr[n], sum = 0, avg;
+    for(i = 0; i < n; i++)
+    {
+        scanf("%lf",&arr[i]);
+        sum = sum + arr[i];
+    }
+    avg = 0;
+    avg = sum / n;
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t The average of %d elements is : %.2lf\n",n,avg);
+    printf("\n");
+    stringify(ans);
+
+}
+
+
+void logb10(double x)
+{
+    double result;
+    result = log10(x);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t Log %.2lf = %lf\n",x,result);
+    printf("\n");
+    stringify(ans);
+}
+
+void logbe(double x)
+{
+    double result;
+    result = log(x);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t Ln %.2lf = %lf\n",x,result);
+    printf("\n");
+    stringify(ans);
+
+}
+
+
+
+void menu ()
+{
+    system("cls");
+    printf("\n\t\t\tSelect an Operation: \n");
+    printf("\n\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t |\t\tTrigonometry Calculator\t\t|\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t\t\t-> 1. Sin\n");
+    printf("\n\t\t\t\t\t\t-> 2. Cos\n");
+    printf("\n\t\t\t\t\t\t-> 3. Tan\n");
+    printf("\n\t\t\t\t\t\t-> 4. Cosec\n");
+    printf("\n\t\t\t\t\t\t-> 5. Sec\n");
+    printf("\n\t\t\t\t\t\t-> 6. Cot\n");
+    printf("\n");
+}
+
+double Radian (double deg)
+{
+    double rad = deg * (PI/180);
+    return rad;
+}
+void sin_value(double deg)
+{
+    system("cls");
+    char ans[1000] = {'\0'};
+
+    sprintf(ans,"\n\t\t\t\t sin(%.2lf) = %.2lf\n",deg, sin(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+void cos_value(double deg)
+{
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t cos(%.2lf) = %.2lf\n",deg, cos(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+void tan_value(double deg)
+{
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t tan(%.2lf) = %.2lf\n",deg, tan(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+
+void cosec_value(double deg)
+{
+    char ans[1000] = {'\0'};
+
+    sprintf(ans,"\n\t\t\t\t cosec(%.2lf) = %.2lf\n",deg, 1/sin(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+void sec_value(double deg)
+{
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t sec(%.2lf) = %.2lf\n",deg, 1/cos(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+void cot_value(double deg)
+{
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t cot(%.2lf) = %.2lf\n",deg, 1/tan(Radian(deg)));
+    printf("\n");
+    stringify(ans);
+
+}
+
+
+void sqr()
+{
+    double x;
+    printf("\n\t\t\t\t\t\tSquare\n");
+    printf("\n\t\t\t\t Enter a number : ");
+    scanf("%lf",&x);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t Square of %.2lf = %.2lf\n",x,x*x);
+    printf("\n");
+    stringify(ans);
+
+}
+
+
+void root()
+{
+    double result, x;
+    system("cls");
+    printf("\n\t\t\t\t\t\tSquare Root\n");
+    printf("\n\t\t\t\t Enter a number : ");
+    scanf("%lf",&x);
+    result = sqrt(x);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t Square root of %.2lf = %.2lf\n",x,result);
+    printf("\n");
+    stringify(ans);
+
+}
+
+
+void eqtn1(double a, double b, double c)
+{
+    double x1, x2;
+    x1 = (-b + (sqrt(b*b-4*a*c)))/(2*a);
+    x2 = (-b - (sqrt(b*b-4*a*c)))/(2*a);
+    char ans[1000] = {'\0'};
+    if((b*b-4*a*c) <= 0)
+    {
+        sprintf(ans,"\n\t\t\t\t Impossible to calculte.\n");
+        printf("\n");
+
+    }
+
+    else
+    {
+        sprintf(ans,"\n\t\t\t\t x1 = %.2lf \tx2 = %.2lf\n",x1,x2);
+        printf("\n");
+
+    }
+    stringify(ans);
+
+}
+
+void eqtn2(double a, double b)
+{
+    double x;
+    x = -b/a;
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t x = %.2lf\n",x);
+    printf("\n");
+    stringify(ans);
+
+}
+
+void power(double a,double num)
+{
+    double p;
+    p = pow(a,num);
+    char ans[1000] = {'\0'};
+
+    sprintf(ans,"\n\t\t\t\t %.2lf to the power %.2lf = %.2lf \n",a,num,p);
+    printf("\n");
+    stringify(ans);
+
+}
+
+void factorial()
+{
+    system("cls");
+    int num, i, fact = 1;
+    char op, ans[1000] = {'\0'};
+
+    printf("\n\t\t\t\t\t\tFactorial\n");
+    printf("\n\t\t\t\t Enter the number to find factorial: ");
+    scanf("%d",&num);
+    if (num<0)
+    {
+        printf("\n\t\t\t Please enter a positive number to");
+        printf(" find factorial and try again. \n");
+        printf("\n\t\t\t Factorial can't be found for negative");
+        printf(" values. It can be only positive or 0  \n");
+        printf("\n\t\t\t Press any key to retry...");
+        getch();
+        factorial();
+    }
+    else
+    {
+        for(i=1; i<=num; i++)
+            fact=fact*i;
+        printf("\n");
+        sprintf(ans,"\n\t\t\t\tFactorial of entered number %d is : %d\n",num,fact);
+        printf("\n");
+        stringify(ans);
+
+        printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+        printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+        printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+        scanf("%c",&op);
+
+        switch(op)
+        {
+
+        case 'C':
+        case 'c':
+            system("cls");
+            options();
+            break;
+
+        case 'r':
+        case 'R':
+            system("cls");
+            snt();
+            break;
+
+        case 'P':
+        case 'p':
+            system("cls");
+            factorial();
+            break;
+
+        }
+
+    }
+
+}
+
+void bmi()
+{
+    system("cls");
+    double w, h;
+    char ans[1000] = {'\0'};
+    printf("\n\t\t\t\t Enter your weight in KG: ");
+    scanf("%lf",&w);
+    printf("\n");
+    printf("\t\t\t\t Enter your height in Meters: ");
+    scanf("%lf",&h);
+    printf("\n");
+    double bmi = w / (h * h);
+    sprintf(ans,"\n\t\t\t\t BMI for %.2lf KG and %.2lf Meters is : %.2lf\n",w, h, bmi);
+    printf("\n");
+    stringify(ans);
+}
+struct Point
+{
+    int x, y;
+};
+
+
+double getDistance(struct Point a, struct Point b)
+{
+    double distance;
+    distance = sqrt((a.x - b.x) * (a.x - b.x) + (a.y-b.y) *(a.y-b.y));
+    return distance;
+}
+void distance()
+{
+    system("cls");
+    struct Point a, b;
+    double c;
+    printf("\n\t\t\t Enter coordinate of point a(x1 ,y1):\n");
+    scanf("%d %d", &a.x, &a.y);
+    printf("\n\t\t\t Enter coordinate of point b(x2, y2): \n");
+    scanf("%d %d", &b.x, &b.y);
+    char ans[1000] = {'\0'};
+    sprintf(ans,"\n\t\t\t\t Distance between a(%d,%d) and b(%d,%d): %.2lf Unit\n", a.x, a.y, b.x, b.y, getDistance(a,b));
+    printf("\n");
+    stringify(ans);
+
+}
+
+void options()
+{
+    int m;
+    char op;
+    system("cls");
+    printf("\t\t\t###########################################################################");
+    printf("\n\t\t\t############                                                   ############");
+    printf("\n\t\t\t############      \t\tCalculator      \t       ############");
+    printf("\n\t\t\t############                                                   ############");
+    printf("\n\t\t\t###########################################################################\n");
+
+    printf("\n\t\t\t\t ***************************************************\n");
+    printf("   \t\t\t\t *|  1. Basic Calculator\t\t\t  |*\n");
+    printf("  \t\t\t\t *|  2. Scientific Calculator\t\t\t  |*\n");
+    printf(" \t\t\t\t *|  3. History\t\t\t\t\t  |*\n");
+    printf(" \t\t\t\t *|  4. Exit\t\t\t\t\t  |*\n");
+    printf("\t\t\t\t ***************************************************\n");
+    printf("\n");
+    for( ; ; )
+    {
+
+        printf("\n");
+        printf("\t\t\t\t Enter your desired operation: ");
+        scanf("%d",&m);
+        switch(m)
+        {
+
+        case 1:
+        {
+            system("cls");
+            basic();
+            break;
+        }
+
+
+        case 2:
+        {
+            system("cls");
+            snt();
+            break;
+        }
+
+
+        case 3:
+        {
+            reader();
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            scanf("%c",&op);
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+            }
+            break;
+        }
+        case 4:
+        {
+            printf("\n\n\t\t\t\t\tThank You.\n");
+            return 0;
+        }
+        break;
+
+
+        default:
+            system("cls");
+            printf("\t\t\t Invalid choice. Please select a valid option.\n");
+            options();
+        }
+
+    }
+
+}
+
+void basic()
+{
+    int n;
+    char op;
+    double a, b;
+    system("cls");
+    printf("\n\t\t\tSelect an Operation: \n");
+    printf("\n\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t |\t\tBasic Calculator\t\t|\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t | |  1. Addition\t\t\t      | |\n");
+    printf("\t\t\t\t | |  2. Subtraction\t\t\t\      | |\n");
+    printf("\t\t\t\t | |  3. Multiplication\t\t\t      | |\n");
+    printf("\t\t\t\t | |  4. Division\t\t\t\      | |\n");
+    printf("\t\t\t\t | |  5. Percentage\t\t\t      | |\n");
+    printf("\t\t\t\t | |  6. Modulus\t\t\t      | |\n");
+    printf("\t\t\t\t | |  7. Average\t\t\t      | |\n");
+    printf("\t\t\t\t | |  8. BMI\t\t\t\t      | |\n");
+    printf("\t\t\t\t | |  9. Main Menu\t\t\t      | |\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\n");
+    printf("\t\t\t\t Enter your desired operation: ");
+    scanf("%d",&n);
+
+    for( ; ; )
+    {
+        switch(n)
+        {
+        case 1:
+            system("cls");
+            add();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Add more\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                add();
+                break;
+
+            }
+            break;
+
+
+        case 2:
+            system("cls");
+            sub();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                sub();
+                break;
+
+            }
+            break;
+
+
+        case 3:
+            system("cls");
+            mul();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                mul();
+                break;
+
+            }
+            break;
+
+
+        case 4:
+            system("cls");
+            division();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+
+            case 'P':
+            case 'p':
+                system("cls");
+                division();
+                break;
+
+            }
+            break;
+
+
+        case 5:
+            per(a,b);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                per();
+                break;
+
+            }
+            break;
+
+
+        case 6:
+            mod();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                mod();
+                break;
+
+            }
+            break;
+
+
+        case 7:
+            avg();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                avg();
+                break;
+
+            }
+            break;
+
+
+        case 8:
+            bmi();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Basic Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                basic();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                bmi();
+                break;
+
+            }
+            break;
+
+        case 9:
+              system("cls");
+              options();
+              break;
+
+
+        default:
+            system("cls");
+            printf("\nInvalid Input. Please enter correct input.\n");
+            basic();
+        }
+    }
+}
+
+void logarithm()
+{
+    int x;
+    double a;
+    char op;
+    system("cls");
+    printf("\n\t\t\t Select an Operation: \n");
+    printf("\n\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t |\t\t   Logarithm\t\t\t|\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\n\t\t\t\t\t-> 1. Common Logarithm\n");
+    printf("\t\t\t\t\t-> 2. Natural Logarithm\n");
+    printf("\n\t\t\t Enter you choice : ");
+    scanf("%d",&x);
+
+    for( ; ; )
+    {
+        if (x == 1)
+        {
+            system("cls");
+            printf("\n\t\t\t\t\t\tCommon Logarithm\n");
+            printf("\n\t\t\t\t Enter a number : ");
+            scanf("%lf",&a);
+            logb10(a);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                logarithm();
+                break;
+
+            }
+        }
+        else if(x == 2)
+        {
+            system("cls");
+            printf("\n\t\t\t\t\t\tNatural Logarithm\n");
+            printf("\n\t\t\t\t Enter a number : ");
+            scanf("%lf",&a);
+            logbe(a);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                logarithm();
+                break;
+
+            }
+        }
+        else
+        {
+            system("cls");
+            printf("Invalid Choice.\n");
+            options();
+        }
+    }
+}
+
+
+void trigon()
+{
+    int x;
+    double deg;
+    char op;
+    system("cls");
+    menu();
+    printf("\t\t\t\t Enter your desired operation: ");
+    scanf("%d",&x);
+    printf("\n\t\t\t\t Enter the degree: ");
+    scanf("%lf",&deg);
+
+    for( ; ; )
+    {
+        switch(x)
+        {
+        case 1:
+            system("cls");
+            sin_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+        case 2:
+             system("cls");
+            cos_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+
+        case 3:
+             system("cls");
+            tan_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+
+        case 4:
+             system("cls");
+            cosec_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+
+        case 5:
+             system("cls");
+            sec_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+
+        case 6:
+             system("cls");
+            cot_value(deg);
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+        default:
+            system("cls");
+            printf("\nInvalid Input. Please enter correct input.\n");
+            options();
+        }
+        break;
+    }
+}
+
+void eqt()
+{
+    int x;
+    double a, b, c;
+    char op;
+    system("cls");
+    printf("\n\t\t\tSelect an Operation: \n");
+    printf("\n\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t |\t\tEquation\t\t\t|\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t\t-> 1. ax + b = 0\n");
+    printf("\t\t\t\t\t-> 2. ax^2 + bx + c = 0\n");
+    printf("\t\t\t\t Enter your desired operation: ");
+    scanf("%d",&x);
+    if(x == 1)
+    {
+        system("cls");
+        printf("\n\t\t\t\t\t\tax + b = 0\n");
+        printf("\n\t\t\t\tEnter the value of the coefficient of 'x' : ");
+        scanf("%lf",&a);
+        printf("\n\t\t\t\tEnter the value of the constant : ");
+        scanf("%lf",&b);
+        eqtn2(a,b);
+
+        printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+        printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+        printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+        scanf("%c",&op);
+
+        switch(op)
+        {
+
+        case 'C':
+        case 'c':
+            system("cls");
+            options();
+            break;
+
+        case 'r':
+        case 'R':
+            system("cls");
+            snt();
+            break;
+
+        case 'P':
+        case 'p':
+            system("cls");
+            logarithm();
+            break;
+
+        }
+    }
+    else if(x == 2)
+    {
+        system("cls");
+        printf("\n\t\t\t\t\t\tax^2 + bx + c = 0\n");
+        printf("\nEnter the value of the coefficient of 'x^2' :\n");
+        scanf("%lf",&a);
+        printf("\nEnter the value of the coefficient of 'x' :\n");
+        scanf("%lf",&b);
+        printf("\nEnter the value of the constant :\n");
+        scanf("%lf",&c);
+        eqtn1(a,b,c);
+
+        printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+        printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+        printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+        scanf("%c",&op);
+
+        switch(op)
+        {
+
+        case 'C':
+        case 'c':
+            system("cls");
+            options();
+            break;
+
+        case 'r':
+        case 'R':
+            system("cls");
+            snt();
+            break;
+
+        case 'P':
+        case 'p':
+            system("cls");
+            eqt();
+            break;
+
+        }
+    }
+    else
+    {
+        system("cls");
+        printf("\n\t\t\t\tInvalid Input. Please enter correct input\n");
+        eqt();
+    }
+}
+
+
+void p1()
+{
+    double a, num;
+    char op;
+    system("cls");
+    printf("\n\t\t\t\t\t\tPower\n");
+    printf("\n\t\t\t\t Enter two numbers to find the power :\n");
+    printf("\n\t\t\t\t Number: ");
+    scanf("%lf",&a);
+
+    printf("\n\t\t\t\t Power : ");
+    scanf("%lf",&num);
+    power(a,num);
+
+    printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+    printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+    printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+    scanf("%c",&op);
+
+    switch(op)
+    {
+
+    case 'C':
+    case 'c':
+        system("cls");
+        options();
+        break;
+
+    case 'r':
+    case 'R':
+        system("cls");
+        snt();
+        break;
+
+    case 'P':
+    case 'p':
+        system("cls");
+        p1();
+        break;
+
+    }
+}
+void snt()
+{
+    double a, b, c, deg, num;
+    int n, x;
+    char op;
+    system("cls");
+    printf("\n\t\t\tSelect an Operation: \n");
+    printf("\n\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t |\t\tScientific Calculator\t\t|\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t | |  1. Logarithm\t\t\t      | |\n");
+    printf("\t\t\t\t | |  2. Trigonometry\t\t\t      | |\n");
+    printf("\t\t\t\t | |  3. Square\t\t\t\t      | |\n");
+    printf("\t\t\t\t | |  4. Square root\t\t\t      | |\n");
+    printf("\t\t\t\t | |  5. Equation Solver\t\t      | |\n");
+    printf("\t\t\t\t | |  6. Power\t\t\t\t      | |\n");
+    printf("\t\t\t\t | |  7. Factorial\t\t\t      | |\n");
+    printf("\t\t\t\t | |  8. Co-ordinate Geometry\t\t      | |\n");
+    printf("\t\t\t\t | |  9. Main Menu\t\t\t      | |\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\t\t\t\t +----------------------------------------------+\n");
+    printf("\n");
+    printf("\t\t\t\t Enter your desired operation: ");
+    scanf("%d",&n);
+
+    for( ; ; )
+    {
+        switch(n)
+        {
+        case 1:
+            logarithm();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                logarithm();
+                break;
+
+            }
+            break;
+
+
+        case 2:
+            system("cls");
+            trigon();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                trigon();
+                break;
+
+            }
+            break;
+
+
+        case 3:
+            system("cls");
+            sqr();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                sqr();
+                break;
+
+            }
+            break;
+
+
+        case 4:
+            system("cls");
+            root();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                root();
+                break;
+
+            }
+            break;
+
+
+        case 5:
+            system("cls");
+            eqt();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                eqt();
+                break;
+
+            }
+            break;
+
+
+        case 6:
+            system("cls");
+            p1();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                p1();
+            }
+            break;
+
+        case 7:
+            system("cls");
+            factorial();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                factorial();
+                break;
+
+            }
+            break;
+        case 8:
+            system("cls");
+            distance();
+
+            printf("\n\n\n\t\t\t\t Enter 'c' or 'C' to go back to Main Menu\n");
+            printf("\n\t\t\t\t Enter 'r' or 'R' to go back to Scientific Calculator\n");
+            printf("\n\t\t\t\t Enter 'p' or 'P' to go back to Continue this Operation\n");
+            scanf("%c",&op);
+
+            switch(op)
+            {
+
+            case 'C':
+            case 'c':
+                system("cls");
+                options();
+                break;
+
+            case 'r':
+            case 'R':
+                system("cls");
+                snt();
+                break;
+
+            case 'P':
+            case 'p':
+                system("cls");
+                distance();
+                break;
+
+            }
+            break;
+
+        case 9:
+               system("cls");
+               options();
+               break;
+
+
+        default:
+            system("cls");
+            printf("\n\t\t\t\t Invalid Input. Please enter correct input.\n");
+            snt();
+
+        }
+    }
+}
+
+
+
+int main ()
+{
+    reg();
+    return 0;
+}
+
